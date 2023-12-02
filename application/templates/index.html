@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block title %} Home {% endblock %}
+{% block content %}
+
+<h3 class="my-5">Welcome to Your expense List</h3>
+<form hx-post="{% url 'create-expense' %}" hx-target="#expenseList" class="mx-auto">
+    {% csrf_token %}
+    <div class="mb-3 row align-items-center">
+        <label for="expenseText" class="col-auto col-form-label">Enter your expense here: </label>
+        <div class="col-6">
+            <input type="text" name="title" class="form-control" id="expenseText" required>
+        </div>
+        <div class="col-auto">
+            <button class="btn btn-success">Add</button>
+        </div>
+    </div>
+</form>
+<div id="expenseList">
+    {% include 'expense-list.html' %}
+</div>
+
+{% endblock %}
+
+{% block js_script %}
+<script>
+    document.body.addEventListener('htmx:configRequest', (event) => {
+        event.detail.headers['X-CSRFToken'] = '{{ csrf_token }}';
+    })
+</script>
+{% endblock %}
