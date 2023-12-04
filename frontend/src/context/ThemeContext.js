@@ -44,12 +44,14 @@ export const ThemeProvider = ({ children }) => {
 
   // update root element class on theme change
   const oldTheme = usePrevious(theme)
+  console.log(`Theme ${theme} | Old theme ${oldTheme}`);
   useLayoutEffect(() => {
     document.documentElement.classList.remove(`theme-${oldTheme}`)
     document.documentElement.classList.add(`theme-${theme}`)
   }, [theme, oldTheme])
 
   function toggleTheme() {
+    console.log(`Current theme ${theme}`)
     if (theme === 'light') setTheme('dark')
     else setTheme('light')
   }
@@ -61,6 +63,6 @@ export const ThemeProvider = ({ children }) => {
     }),
     [theme]
   )
-
+  console.log("Returning theme context");
   return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>
 }
