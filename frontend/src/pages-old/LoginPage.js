@@ -3,10 +3,10 @@ import {useState} from "react";
 
 
 const LoginPage = () => {
-      const [email, setEmail] = useState('');
-      const [password, setPassword] = useState('');
-    
-      const submit = async e => {
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+  
+    const submit = async e => {
       e.preventDefault();
       const user = {
         email: email,
