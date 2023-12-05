@@ -8,4 +8,4 @@ class Expense(BaseModel):
     checked = models.BooleanField(default=False)
 
     def __str__(self):
-        return f"{self.title}|{self.value}"
+        return f"{self.title} | {self.value}"

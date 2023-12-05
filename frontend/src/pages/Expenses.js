@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import axios from "axios";
 import PageTitle from '../components/Typography/PageTitle'
 import {
   Table,
@@ -16,27 +17,34 @@ import {
 } from '@windmill/react-ui'
 import { EditIcon, TrashIcon, MailIcon } from '../icons'
 
-import response from '../utils/demo/tableData'
-
 function Expenses() {
   const [page, setPage] = useState(1)
   const [data, setData] = useState([])
+  const [totalResults, setTotalResults] = useState(0)
 
   const resultsPerPage = 10
-  const totalResults = response.length
 
   function onPageChange(p) {
     setPage(p)
   }
 
+  function fetchExpenses(page) {
+    axios
+      .get(`/api/finance/expenses?page=${page}`)
+      .then((res) => {
+        setData(res.data.results)
+        setTotalResults(res.data.count)
+      })
+      .catch((err) => console.log(err));
+  }
+
   useEffect(() => {
-    setData(response.slice((page - 1) * resultsPerPage, page * resultsPerPage))
-  }, [page])
+    fetchExpenses(page)
+  }, [page, totalResults])
 
   return (
     <>
       <PageTitle>Expenses</PageTitle>
-
       <Label>
         <div className="relative text-gray-500 focus-within:text-purple-600 dark:focus-within:text-purple-400">
           <input
@@ -49,11 +57,14 @@ function Expenses() {
         </div>
       </Label>
 
-      <TableContainer className="mb-8">
+      {
+        totalResults <= 0 ?
+        <></> :
+        <TableContainer className="mb-8">
         <Table>
           <TableHeader>
             <tr>
-              <TableCell>Client</TableCell>
+              <TableCell>Title</TableCell>
               <TableCell>Amount</TableCell>
               <TableCell>Status</TableCell>
               <TableCell>Date</TableCell>
@@ -61,25 +72,25 @@ function Expenses() {
             </tr>
           </TableHeader>
           <TableBody>
-            {data.map((user, i) => (
+            {data.map((expense, i) => (
               <TableRow key={i}>
                 <TableCell>
                   <div className="flex items-center text-sm">
-                    <Avatar className="hidden mr-3 md:block" src={user.avatar} alt="User avatar" />
+                    {/* <Avatar className="hidden mr-3 md:block" src={expense.avatar} alt="expense avatar" /> */}
                     <div>
-                      <p className="font-semibold">{user.name}</p>
-                      <p className="text-xs text-gray-600 dark:text-gray-400">{user.job}</p>
+                      <p className="font-semibold">{expense.title}</p>
+                      <p className="text-xs text-gray-600 dark:text-gray-400">{expense.title}</p>
                     </div>
                   </div>
                 </TableCell>
                 <TableCell>
-                  <span className="text-sm">$ {user.amount}</span>
+                  <span className="text-sm">$ {expense.value}</span>
                 </TableCell>
                 <TableCell>
-                  <Badge type={user.status}>{user.status}</Badge>
+                  <Badge type={expense.checked}>{expense.checked}</Badge>
                 </TableCell>
                 <TableCell>
-                  <span className="text-sm">{new Date(user.date).toLocaleDateString()}</span>
+                  <span className="text-sm">{new Date(expense.created_at).toLocaleDateString()}</span>
                 </TableCell>
                 <TableCell>
                   <div className="flex items-center space-x-4">
@@ -97,15 +108,17 @@ function Expenses() {
         </Table>
         <TableFooter>
           <Pagination
-            totalResults={totalResults}
-            resultsPerPage={resultsPerPage}
-            onChange={onPageChange}
-            label="Table navigation"
-          />
+              totalResults={totalResults}
+              resultsPerPage={resultsPerPage}
+              onChange={onPageChange}
+            />
         </TableFooter>
       </TableContainer>
+      }
     </>
   )
 }
+
+
 
 export default Expenses
