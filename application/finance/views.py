@@ -1,37 +1,18 @@
-from django.shortcuts import render
-from rest_framework import viewsets
 from .models import Expense
 from .serializers import ExpenseSerializer
+from rest_framework import viewsets
+from rest_framework import pagination
 
 
-class ExpenseView(viewsets.ModelViewSet):
+class ExpenseResultsSetPagination(pagination.PageNumberPagination):
+    page_size = 10
+    page_size_query_param = 'page_size'
+    max_page_size = 20
+
+
+class ExpenseGenericViewSet(
+    viewsets.ModelViewSet
+):
     serializer_class = ExpenseSerializer
-    queryset = Expense.objects.all()
-
-
-def index(request):
-    expenses = Expense.objects.all().order_by('-created_at')
-    return render(request, 'index.html', {'expenses': expenses})
-
-
-def create_expense(request):
-    title = request.POST.get('title')
-    expense = Expense.objects.create(title=title)
-    expense.save()
-    expenses = Expense.objects.all().order_by('-created_at')
-    return render(request, 'expense-list.html', {'expenses': expenses})
-
-
-def mark_expense(request, pk):
-    expense = Expense.objects.get(pk=pk)
-    expense.checked = True
-    expense.save()
-    expenses = Expense.objects.all().order_by('-created_at')
-    return render(request, 'expense-list.html', {'expenses': expenses})
-
-
-def delete_expense(request, pk):
-    expense = Expense.objects.get(pk=pk)
-    expense.delete()
-    expenses = Expense.objects.all().order_by('-created_at')
-    return render(request, 'expense-list.html', {'expenses': expenses})
+    queryset = Expense.objects.all().order_by('-created_at')
+    pagination_class = ExpenseResultsSetPagination

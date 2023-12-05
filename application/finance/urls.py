@@ -3,8 +3,8 @@ from rest_framework import routers
 from . import views
 
 
-router = routers.DefaultRouter()
-router.register(r'expenses', views.ExpenseView, 'finance-expenses')
+router = routers.SimpleRouter()
+router.register(r'expenses', views.ExpenseGenericViewSet, basename='finance-expenses')
 
 
 urlpatterns = [

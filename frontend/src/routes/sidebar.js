@@ -37,9 +37,9 @@ const routes = [
     name: 'Modals',
   },
   {
-    path: '/app/tables',
+    path: '/app/expenses',
     icon: 'TablesIcon',
-    name: 'Tables',
+    name: 'Expenses',
   },
   {
     icon: 'PagesIcon',
