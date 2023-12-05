@@ -3,7 +3,6 @@ import { SidebarContext } from '../context/SidebarContext'
 import {
   MoonIcon,
   SunIcon,
-  BellIcon,
   MenuIcon,
   OutlinePersonIcon,
   OutlineCogIcon,
@@ -21,9 +20,6 @@ function Header() {
   const [isNotificationsMenuOpen, setIsNotificationsMenuOpen] = useState(false)
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false)
 
-  function handleNotificationsClick() {
-    setIsNotificationsMenuOpen(!isNotificationsMenuOpen)
-  }
 
   function handleProfileClick() {
     setIsProfileMenuOpen(!isProfileMenuOpen)
