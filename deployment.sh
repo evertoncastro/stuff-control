@@ -15,3 +15,4 @@ poetry shell
 
 # 3. Build the backend
 python manage.py collectstatic --no-input
+
