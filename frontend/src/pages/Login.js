@@ -11,6 +11,7 @@ function Login() {
   const [password, setPassword] = useState('');
 
   const submit = async e => {
+    console.log(process.env.REACT_APP_API_URL);
     e.preventDefault();
     const user = {
       email: email,
