@@ -5,7 +5,7 @@ const Protected = (props) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   
   const checkUserToken = () => {
-      const userToken = localStorage.getItem('access_token');
+      const userToken = sessionStorage.getItem('access_token');
       if (!userToken || userToken === 'undefined') {
           setIsLoggedIn(false);
           window.location.href = '/login'

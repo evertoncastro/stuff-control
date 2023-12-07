@@ -9,7 +9,7 @@ import {
   OutlineLogoutIcon,
 } from '../icons'
 import { Avatar, Badge, Dropdown, DropdownItem, WindmillContext } from '@windmill/react-ui';
-import axios from "axios";
+import apiInstance from '../services/api_service';
 import AvatarIcon from "../assets/img/avataricon.png"
 
 
@@ -29,16 +29,16 @@ function Header() {
     (async () => {
       try {
         await  
-          axios.post('api/authentication/logout', 
-            {refresh_token: localStorage.getItem('refresh_token')},
+          apiInstance.post('authentication/logout', 
+            {refresh_token: sessionStorage.getItem('refresh_token')},
             {headers: {
               'Content-Type': 'application/json',
-              'Authorization': `Bearer ${localStorage.getItem('access_token')}`
+              'Authorization': `Bearer ${sessionStorage.getItem('access_token')}`
             }},  
             {withCredentials: true}
           );
-        localStorage.clear();
-        axios.defaults.headers.common['Authorization'] = null;
+        sessionStorage.clear()
+        apiInstance.defaults.headers.common['Authorization'] = null;
         window.location.href = '/login'
       } catch (e) {
         console.log('logout not working', e)

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios from "axios";
+import apiInstance from '../services/api_service';
 import ImageLight from '../assets/img/login-office.jpeg'
 import ImageDark from '../assets/img/login-office-dark.jpeg'
 import { Label, Input, Button } from '@windmill/react-ui'
@@ -17,15 +17,15 @@ function Login() {
       password: password
     };
     
-    const {data} = await axios.post(
-      '/api/authentication/token',
+    const {data} = await apiInstance.post(
+      'authentication/token',
       user, {headers: {'Content-Type': 'application/json'}}
     );
 
-    // localStorage.clear();
-    localStorage.setItem('access_token', data.access);
-    localStorage.setItem('refresh_token', data.refresh);
-    axios.defaults.headers.common['Authorization'] = `Bearer ${data['access']}`;
+    sessionStorage.clear();
+    sessionStorage.setItem('access_token', data.access);
+    sessionStorage.setItem('refresh_token', data.refresh);
+    apiInstance.defaults.headers.common['Authorization'] = `Bearer ${data['access']}`;
     window.location.href = '/app'
   }
 

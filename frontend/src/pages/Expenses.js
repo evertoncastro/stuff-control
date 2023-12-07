@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import axios from "axios";
+import apiInstance from '../services/api_service'
 import PageTitle from '../components/Typography/PageTitle'
 import {
   Table,
@@ -29,8 +29,7 @@ function Expenses() {
   }
 
   function fetchExpenses(page) {
-    axios
-      .get(`/api/finance/expenses?page=${page}`)
+    apiInstance.get(`finance/expenses/?page=${page}`)
       .then((res) => {
         setData(res.data.results)
         setTotalResults(res.data.count)

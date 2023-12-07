@@ -6,7 +6,6 @@ import { SidebarProvider } from './context/SidebarContext'
 import ThemedSuspense from './components/ThemedSuspense'
 import { Windmill } from '@windmill/react-ui'
 import * as serviceWorker from './serviceWorker'
-import './interceptors/axios';
 
 
 ReactDOM.render(
