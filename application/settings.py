@@ -10,7 +10,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 BACKEND_DIR = BASE_DIR  / 'application'
 FRONTEND_DIR = BASE_DIR / 'frontend'
 
-SECRET_KEY = 'django-insecure-i&sh1j7f=^sr7o(@4pfml$38a_n_7c3n(d)j+m*=qa_a2*evq%'
+SECRET_KEY = os.environ.get('SECRET_KEY')
 
 DEBUG = os.environ.get('DJANGO_ENV') == 'development'
 
