@@ -16,10 +16,11 @@ class TestMixins:
         user.save()
         return user
     
-    def create_expense(self, **kwargs) -> Expense:
+    def create_expense(self, user, **kwargs) -> Expense:
         expense = Expense(
+            user=user,
             title=kwargs.get('title') if kwargs.get('title') else 'My expense',
-            value=kwargs.get('value') if kwargs.get('value') else 100
+            amount=kwargs.get('amount') if kwargs.get('amount') else 100
         )
         expense.save()
         return expense

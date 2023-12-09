@@ -83,10 +83,10 @@ function Expenses() {
                   </div>
                 </TableCell>
                 <TableCell>
-                  <span className="text-sm">$ {expense.value}</span>
+                  <span className="text-sm">$ {expense.amount}</span>
                 </TableCell>
                 <TableCell>
-                  <Badge type={expense.checked}>{expense.checked}</Badge>
+                  <Badge type={expense.verified}>{expense.verified}</Badge>
                 </TableCell>
                 <TableCell>
                   <span className="text-sm">{new Date(expense.created_at).toLocaleDateString()}</span>
