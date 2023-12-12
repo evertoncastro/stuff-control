@@ -42,6 +42,11 @@ const routes = [
     name: 'Expenses',
   },
   {
+    path: '/app/expenses/add',
+    icon: 'TablesIcon',
+    name: 'ExpenseAdd',
+  },
+  {
     icon: 'PagesIcon',
     name: 'Pages',
     routes: [
@@ -65,7 +70,7 @@ const routes = [
       {
         path: '/app/blank',
         name: 'Blank',
-      },
+      }
     ],
   },
 ]

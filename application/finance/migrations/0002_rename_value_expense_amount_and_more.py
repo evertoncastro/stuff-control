@@ -6,7 +6,10 @@ from django.db import migrations, models
 from django.contrib.auth import get_user_model
 
 User = get_user_model()
-u = User.objects.filter().first()
+try:
+    u_id = User.objects.filter().first().pk
+except:
+    u_id = 1
 
 
 class Migration(migrations.Migration):
@@ -30,7 +33,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='expense',
             name='user',
-            field=models.ForeignKey(default=u.pk, on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL),
+            field=models.ForeignKey(default=u_id, on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL),
             preserve_default=False,
         ),
     ]
