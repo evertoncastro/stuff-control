@@ -14,12 +14,15 @@ class CouponManager:
             raw_data=qrcode_data
         )
         if len(data_parts) == 5:
+            access_key = data_parts[0]
             coupon_instance.type = CouponType.SAT_SP
             coupon_instance.extracted_data = dict(
                 amount=data_parts[2],
-                user=data_parts[3],
-                datatime=datetime.datetime.strptime(data_parts[1], "%Y%m%d%H%M%S").isoformat()
+                user=data_parts[3] if data_parts[3] else None,
+                datetime=datetime.datetime.strptime(data_parts[1], "%Y%m%d%H%M%S").isoformat(),
+                issuer=access_key[6:20]
             )
+            coupon_instance.amount=float(data_parts[2])
         
         coupon_instance.save()
         return coupon_instance

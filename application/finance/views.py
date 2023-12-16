@@ -1,9 +1,12 @@
-from .models import Expense
+from .models import Expense, Coupon
 from rest_framework import viewsets
 from rest_framework import pagination
+from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import action
 from .serializers import ExpenseSerializer, CreateExpenseFromCouponQrcodeSerializer
+from .expenses import ExpenseManager
+from .coupons import CouponManager
 
 
 class ExpenseResultsSetPagination(pagination.PageNumberPagination):
@@ -30,8 +33,11 @@ class ExpenseGenericViewSet(
 class ExpenseFromCouponGenericViewSet(
     viewsets.ViewSet
 ):
+    
     @action(detail=False, methods=['post'], url_name='qrcode')
     def qrcode(self, request):
         serializer = CreateExpenseFromCouponQrcodeSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        return Response({'status': 'ok'})
+        coupon: Coupon = CouponManager().create_from_qrcode(request.user, serializer.data["qrcode_data"])
+        expense: Expense = ExpenseManager().create_expense_from_coupon(coupon)
+        return Response({'status': 'ok'}, status=status.HTTP_201_CREATED)
