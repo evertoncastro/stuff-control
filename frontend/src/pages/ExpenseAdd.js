@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import PageTitle from '../components/Typography/PageTitle';
 import QrScanner from 'qr-scanner';
-import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from '@windmill/react-ui';
+import apiInstance from '../services/api_service';
+import { Modal, ModalHeader, ModalBody, ModalFooter, Button, Input } from '@windmill/react-ui';
 
 
 function ExpenseAdd() {
@@ -41,6 +42,19 @@ function ExpenseAdd() {
     }
   }
 
+  function sendQrcodeData() {
+    apiInstance.post(`finance/expenses/coupon/qrcode/`, {qrcode_data: qrData})
+      .then((res) => {
+        console.log(res)
+      })
+      .catch((err) => console.log(err));
+  }
+
+  const inputRef = React.useRef(null);
+  const testInput = () => {
+    setResult({data: inputRef.current.value});
+  }
+
   const toggleFlash = () => {
     if(qrScanner) {
       qrScanner.toggleFlash();
@@ -55,9 +69,11 @@ function ExpenseAdd() {
   return (
     <>
       <PageTitle>Add expense</PageTitle>
+      <Input ref={inputRef}></Input>
       <video ref={videoReference} id='videofromreader'></video>
-      <Button size="small" onClick={toggleFlash}>Toggle Flash</Button>
-
+      <Button size="small" onClick={testInput}>Send</Button>
+      
+      {/* <Button size="small" onClick={toggleFlash}>Toggle Flash</Button> */}
       <Modal isOpen={isModalOpen} onClose={closeModal}>
         <ModalHeader>QRCode read</ModalHeader>
         <ModalBody>
@@ -68,7 +84,7 @@ function ExpenseAdd() {
           <Button className="w-full sm:w-auto" layout="outline" onClick={closeModal}>
             Cancel
           </Button>
-          <Button className="w-full sm:w-auto">Accept</Button>
+          <Button className="w-full sm:w-auto" onClick={sendQrcodeData}>Accept</Button>
         </ModalFooter>
       </Modal>
     </>
