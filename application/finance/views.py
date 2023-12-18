@@ -31,13 +31,18 @@ class ExpenseGenericViewSet(
     
 
 class ExpenseFromCouponGenericViewSet(
-    viewsets.ViewSet
+    viewsets.ModelViewSet
 ):
+    serializer_class = CreateExpenseFromCouponQrcodeSerializer
+    queryset = Expense.objects.all().order_by('-created_at')
+    pagination_class = ExpenseResultsSetPagination
     
     @action(detail=False, methods=['post'], url_name='qrcode')
     def qrcode(self, request):
         serializer = CreateExpenseFromCouponQrcodeSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        coupon: Coupon = CouponManager().create_from_qrcode(request.user, serializer.data["qrcode_data"])
+        coupon: Coupon = CouponManager().create_from_qrcode(
+            request.user, serializer.data["qrcode_data"]
+        )
         expense: Expense = ExpenseManager().create_expense_from_coupon(coupon)
-        return Response({'status': 'ok'}, status=status.HTTP_201_CREATED)
+        return Response({'id': expense.id}, status=status.HTTP_201_CREATED)
