@@ -1,6 +1,6 @@
 from faker import Faker
 from application.authentication.models import User
-from application.finance.models import Expense
+from application.finance.models import Expense, Coupon
 
 dummy = Faker()
 
@@ -24,3 +24,14 @@ class TestMixins:
         )
         expense.save()
         return expense
+    
+    def create_coupon(self, user, **kwargs) -> Coupon:
+        amount = kwargs.get("amount") if kwargs.get("amount") else 100
+        coupon = Coupon(
+            user=user,
+            amount=amount,
+            raw_data="test",
+            extracted_data={"amount": amount}
+        )
+        coupon.save()
+        return coupon

@@ -14,7 +14,7 @@ class CouponManagerTestCase(TestCase, TestMixins):
     def test_create_coupon_from_qrcode_sat_sp_1(self):
         qrcode = stubs.QRCD_SAT_SP_1
         coupon_db: CouponDB = CouponManager().create_from_qrcode(self.user, qrcode)
-        self.assertEqual(coupon_db.type, CouponType.SAT_SP)
+        self.assertEqual(coupon_db.type, CouponType.SAT_SP.value)
         self.assertDictContainsSubset(dict(
             amount="192.34",
             datetime="2023-12-09T21:41:10",
@@ -27,7 +27,7 @@ class CouponManagerTestCase(TestCase, TestMixins):
     def test_create_coupon_from_qrcode_sat_sp_2(self):
         qrcode = stubs.QRCD_SAT_SP_2
         coupon_db: CouponDB = CouponManager().create_from_qrcode(self.user, qrcode)
-        self.assertEqual(coupon_db.type, CouponType.SAT_SP)
+        self.assertEqual(coupon_db.type, CouponType.SAT_SP.value)
         self.assertDictContainsSubset(dict(
             amount="192.34",
             datetime="2023-12-09T21:41:10",

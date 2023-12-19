@@ -15,7 +15,7 @@ class CouponManager:
         )
         if len(data_parts) == 5:
             access_key = data_parts[0]
-            coupon_instance.type = CouponType.SAT_SP
+            coupon_instance.type = CouponType.SAT_SP.value
             coupon_instance.extracted_data = dict(
                 amount=data_parts[2],
                 user=data_parts[3] if data_parts[3] else None,

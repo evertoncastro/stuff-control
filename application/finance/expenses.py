@@ -8,7 +8,7 @@ class ExpenseManager:
         return Expense.objects.create(
             user=coupon.user,
             title="Expense",
-            amount=0,
+            amount=coupon.amount,
             verified=True,
             coupon=coupon
         )

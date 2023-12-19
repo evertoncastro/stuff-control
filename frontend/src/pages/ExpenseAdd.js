@@ -45,9 +45,13 @@ function ExpenseAdd() {
   function sendQrcodeData() {
     apiInstance.post(`finance/expenses/coupon/qrcode/`, {qrcode_data: qrData})
       .then((res) => {
-        console.log(res)
+        closeModal();
+        alert("Sucess: " + JSON.stringify(res.data));
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        closeModal();
+        alert("Error: " + JSON.stringify(err));
+      });
   }
 
   const inputRef = React.useRef(null);
@@ -68,23 +72,23 @@ function ExpenseAdd() {
 
   return (
     <>
-      <PageTitle>Add expense</PageTitle>
-      <Input ref={inputRef}></Input>
-      <video ref={videoReference} id='videofromreader'></video>
-      <Button size="small" onClick={testInput}>Send</Button>
       
-      {/* <Button size="small" onClick={toggleFlash}>Toggle Flash</Button> */}
+      <PageTitle>Add expense</PageTitle>
+      {/* <Input ref={inputRef}></Input> */}
+      <video ref={videoReference} id='videofromreader'></video>
+      {/* <Button size="small" onClick={testInput}>Send</Button> */}
+      <Button size="small" onClick={toggleFlash}>Toggle Flash</Button>
       <Modal isOpen={isModalOpen} onClose={closeModal}>
         <ModalHeader>QRCode read</ModalHeader>
         <ModalBody>
-          QRCode read data
+          Do you confirm this expense registration?
           <p>{qrData}</p>
         </ModalBody>
         <ModalFooter>
           <Button className="w-full sm:w-auto" layout="outline" onClick={closeModal}>
             Cancel
           </Button>
-          <Button className="w-full sm:w-auto" onClick={sendQrcodeData}>Accept</Button>
+          <Button className="w-full sm:w-auto" onClick={sendQrcodeData}>Confirm</Button>
         </ModalFooter>
       </Modal>
     </>
