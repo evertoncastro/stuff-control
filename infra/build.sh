@@ -16,5 +16,8 @@ done
 cd ..
 
 poetry env use python3.11
+poetry shell
 python manage.py collectstatic --no-input
+
+python manage.py migrate
 
