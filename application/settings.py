@@ -156,3 +156,7 @@ WHITENOISE_ROOT = FRONTEND_DIR / 'build' / 'root'
 # Default primary key field type
 # https://docs.djangoproject.com/en/dev/ref/settings/#default-auto-field
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# External
+BRASIL_API_URL = os.environ.get('BRASIL_API_URL')

@@ -31,7 +31,10 @@ class TestMixins:
             user=user,
             amount=amount,
             raw_data="test",
-            extracted_data={"amount": amount}
+            extracted_data={
+                "amount": amount,
+                "issuer": kwargs.get("issuer")
+            }
         )
         coupon.save()
         return coupon
